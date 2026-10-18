@@ -1,101 +1,91 @@
 <h1 align="center">Design of a CMOS Ring Oscillator</h1>
 
 <p align="center">
-  3-stage ring oscillator · GPDK 90 nm · Cadence Virtuoso · Target 15 GHz
+  A tiny on-chip "clock" circuit · 90 nm chip technology · Cadence Virtuoso
 </p>
 
 <p align="center">
-  <b>Note:</b> Please read the project report for detailed calculations, circuit diagrams, waveforms, layout and analysis.
+  <img src="https://img.shields.io/badge/Target-15%20GHz-blue" alt="Target">
+  <img src="https://img.shields.io/badge/Before%20layout-14.72%20GHz-brightgreen" alt="Pre-layout">
+  <img src="https://img.shields.io/badge/After%20layout-10.87%20GHz-red" alt="Post-layout">
+  <img src="https://img.shields.io/badge/DRC%20%2F%20LVS-passed-brightgreen" alt="DRC LVS">
+  <img src="https://img.shields.io/badge/Technology-GPDK%2090%20nm-orange" alt="Technology">
 </p>
+
+> [!NOTE]
+> Please read the project report for detailed calculations, circuit diagrams, waveforms, layout and analysis.
 
 ---
 
-A ring oscillator needs no input signal: a loop of inverters starts on its own and the frequency is set by the inverter delay.
+**What is this project?**
+Every digital chip needs a clock, a signal that ticks millions or billions of times per second to keep everything in step. A *ring oscillator* is one of the simplest ways to make that tick. It is just three NOT gates (called inverters) connected in a circle. The output of the last gate feeds back into the first, so the circuit keeps flipping on its own, with no input needed.
 
-**f = 1 / (2 · N · tp)** where N = number of stages and tp = average inverter delay.
+**How fast does it tick?**
+Each gate takes a tiny amount of time to respond. The faster the gates, the faster the ticking.
 
-**Why 3 stages (odd)?** Each inverter gives 180°. Three inverters give 180° in total, and the stage delays must supply the other 180° (60° per stage) for a 360° loop. An even number would latch instead of oscillating.
+**Frequency = 1 / (2 × number of gates × delay per gate)**
+
+**Why three gates?**
+A NOT gate flips a signal. An odd number of flips means the signal comes back flipped, so the circuit never settles and keeps switching. With an even number, it would get stuck.
+
+> [!TIP]
+> **Goal:** build this circuit as a real chip design that ticks **15 billion times per second (15 GHz)**.
 
 ## Full Custom ASIC Flow (Schematic → Layout)
 
 ### 1. System Specification
-3-stage ring oscillator, GPDK 90 nm, target frequency 15 GHz.
+Decide what to build: a 3-gate ring oscillator on a 90 nm chip technology, ticking at 15 GHz.
 
 ### 2. Circuit Design
-Parameters were chosen from one-at-a-time parametric sweeps:
+Each gate is made of two transistors (tiny electronic switches). I tested different sizes and supply voltages to see what gives the best speed:
 
-| Parameter | Observation | Final value |
+| What I changed | What I found | Final choice |
 |---|---|---|
-| Wn | Almost no effect on frequency (larger Wn also loads the next stage) | 230 nm |
-| R = Wp/Wn | Frequency rises, peaks, then falls (peak 14.48 GHz at R = 2.7) | Wp = 615 nm |
-| Vdd | Frequency rises with supply but power rises faster (15 GHz at about 1.245 V) | 1.2 V |
-| L, N | Fixed by technology and design choice | 100 nm, 3 |
+| Size of the NMOS transistor (Wn) | 🔵 Almost no effect on speed | 230 nm |
+| Size ratio of PMOS to NMOS (R) | 🟢 Speed rises, peaks, then falls; best at R = 2.7 | PMOS = 615 nm |
+| Supply voltage (Vdd) | 🟡 Higher voltage is faster, but uses much more power | 1.2 V |
+| Gate length (L) and number of gates (N) | 🔵 Set by the technology and the design | 100 nm, 3 gates |
 
-Single-inverter delays: tpHL = 8.59 ps, tpLH = 14.15 ps (the rising edge is slower because the PMOS is weaker). Calculated frequency: **14.66 GHz**.
+I also measured how long one gate takes to switch: 8.59 ps for the falling edge and 14.15 ps for the rising edge (1 ps = one trillionth of a second). Using the formula above, the expected speed is **14.66 GHz**.
 
 ### 3. Schematic Entry
-Built the inverter, connected three in a closed loop, and created a symbol. The testbench uses a DC supply and an initial condition (Vout = 0), because an ideal loop would otherwise stay at its unstable equilibrium point. In real silicon, noise starts the oscillation.
+Drew the circuit diagram on the computer: one gate, then three gates connected in a circle. In the simulator, I gave the circuit a small starting push (output = 0), because a perfectly ideal circuit would just sit still. In a real chip, tiny electrical noise starts it automatically.
 
 <p align="center"><i>📷 Add photo: schematic</i></p>
 
 ### 4. Circuit Simulation
-Transient simulation in Spectre (27 °C):
+Ran a computer simulation of the circuit (at 27 °C, room temperature):
 
-| Parameter | Value |
-|---|---|
-| Frequency | 14.72 GHz (about 1.9% below target) |
-| Average power | 182.5 µW |
-| Energy per cycle | 12.4 fJ |
-| Phase shift per stage | 60.2° |
-| Loop gain | about 216 at DC, about 27 at the oscillation frequency |
+| What was measured | Result | What it means |
+|---|---|---|
+| Speed (frequency) | 🟢 14.72 GHz | Within about 2% of the 15 GHz goal |
+| Average power | 🟢 182.5 µW | Very small power use |
+| Energy per tick | 🔵 12.4 fJ | Energy used for one full cycle |
+| Timing delay per gate (phase) | 🟢 60.2° | Matches the expected 60°, so the circuit works as theory predicts |
 
-A phase of 60° per stage and a loop gain above 1 confirm the Barkhausen criterion.
-
-<p align="center"><i>📷 Add photo: transient waveform</i></p>
+<p align="center"><i>📷 Add photo: output waveform</i></p>
 
 ### 5. Layout Design
-Three identical inverters placed side by side with the same orientation, so every stage sees the same wiring. The output of the third stage is routed back to the first.
+Turned the diagram into the actual physical drawing of the chip: the shapes and wires that would be made in a factory. The three gates are identical and placed side by side, so each one behaves the same. The last gate's output is wired back to the first.
 
 <p align="center"><i>📷 Add photo: layout</i></p>
 
 ### 6. DRC / LVS Verification
-DRC: no errors. LVS: layout matches the schematic with no net, device, pin or parameter mismatches.
+Two safety checks on the drawing:
+- 🟢 **DRC** checks the factory's drawing rules (for example, minimum wire width and spacing). **No errors.**
+- 🟢 **LVS** checks that the drawing matches the original circuit diagram. **Perfect match.**
 
 ### 7. Parasitic Extraction (PEX)
-Extracted the wire resistance and capacitance with Quantus, giving the `av_extracted` view used for post-layout simulation.
+Real wires are not perfect. Each wire adds a little extra resistance and stores a little extra electrical charge (capacitance), which slows the circuit down. This step measures those extras from the drawing, so they can be included in the next simulation.
 
 ### 8. Post-Layout Simulation
+Simulated again, now including the wire effects:
 
-| Parameter (1.2 V) | Pre-layout | Post-layout |
+| What was measured (at 1.2 V) | Before layout | After layout |
 |---|---|---|
-| Frequency | 14.72 GHz | **10.87 GHz** (about 26% lower) |
-| Average power | 182.5 µW | 180.12 µW |
-| Energy per cycle | 12.4 fJ | 16.6 fJ (about 34% higher) |
+| Speed (frequency) | 🟢 14.72 GHz | 🔴 **10.87 GHz** (about 26% slower) |
+| Average power | 🔵 182.5 µW | 🔵 180.12 µW |
+| Energy per tick | 🟢 12.4 fJ | 🟡 16.6 fJ (about 34% more) |
 
-Wiring capacitance slows every stage. Power barely changes because the lower frequency offsets the extra capacitance, so the energy per cycle rises. Raising Vdd to 1.8 V recovers 14.41 GHz but costs 587.4 µW (about 3.3× the power) and exceeds the rated supply, so the target is not met after layout at any valid supply.
-
-<p align="center"><i>📷 Add photo: post-layout waveform</i></p>
-
-### 9. PVT Analysis
-Run on the post-layout circuit.
-
-**Process corners (1.2 V, 27 °C)**
-
-| Corner | FF | NN | FS | SF | SS |
-|---|---|---|---|---|---|
-| Frequency (GHz) | 13.84 | 10.87 | 10.75 | 10.01 | 7.75 |
-| Power (µW) | 238.0 | 180.1 | 173.5 | 163.5 | 124.1 |
-
-| Variation | Result |
-|---|---|
-| Process | Oscillates in all 5 corners, −28.7% (SS) to +27.3% (FF) around NN |
-| Voltage (27 °C) | Oscillates down to 0.45 V (about 1.6 GHz); about 9.3 GHz/V near 1.2 V |
-| Temperature (1.2 V) | Falls about 27% from 0 °C to 100 °C (carrier mobility drops with temperature) |
-
-<p align="center"><i>📷 Add photo: corner, voltage and temperature plots</i></p>
-
-## Key Learnings
-
-- Layout parasitics cost about 26% of the frequency, so consider them early in the design.
-- Supply voltage has the largest effect on both frequency and power.
-- Shorter routing, tighter placement or re-tuned device sizes can recover the lost frequency within the rated supply.
+> [!WARNING]
+> The wires slowed the circuit down, so the 15 GHz goal was
