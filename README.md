@@ -43,7 +43,7 @@ A ring oscillator is a self-starting timing source built only from inverters, wi
 ### Schematic :
 
 | Parameter | Value |  
-|---|---|---|
+|------|---|
 | Stages (N) | 3 | 
 | Channel length (L) | 100 nm | 
 | NMOS width (Wn) | 230 nm |
