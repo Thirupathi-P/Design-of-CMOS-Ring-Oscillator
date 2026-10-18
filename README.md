@@ -14,6 +14,8 @@
   <img src="https://img.shields.io/badge/DRC%20%2F%20LVS-passed-brightgreen?style=for-the-badge" alt="DRC LVS">
   <img src="https://img.shields.io/badge/Technology-GPDK%2090%20nm-orange?style=for-the-badge" alt="Technology">
 </p>
+
+
 > [!NOTE]
 > Please read the project report for detailed theory, design calculations, circuit diagrams, simulation waveforms, layout and analysis.
 
