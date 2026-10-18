@@ -27,18 +27,6 @@ Ring oscillators are compact, self-starting sources of timing signals, built onl
 
 > **In simple terms:** Every digital chip needs a clock, a signal that ticks billions of times per second to keep its parts in step. This project builds a simple clock from three NOT gates connected in a loop, and checks how it performs before and after it is drawn as a real chip layout.
 
-### Key Results
-
-| Parameter | Target | Pre-layout | Post-layout (1.2 V) |
-|---|---|---|---|
-| Frequency | 15 GHz | 14.72 GHz | 10.87 GHz |
-| Average power | – | 182.5 µW | 180.12 µW |
-| Energy per cycle | – | 12.4 fJ | 16.6 fJ |
-| DRC / LVS | – | – | Passed, no errors |
-
----
-
-## Full Custom ASIC Flow (Schematic → Layout)
 
 ### 1. System Specification
 
@@ -140,6 +128,15 @@ FF = fast, SS = slow, NN = nominal, FS and SF = one transistor type fast and the
 | Temperature (1.2 V) | Frequency falls about 27% from 0 °C to 100 °C, because carrier mobility drops at high temperature |
 
 <p align="center"><i>Add image: process-corner, supply and temperature plots</i></p>
+
+###  Results
+
+| Parameter  | Pre-layout | Post-layout (1.2 V) |
+|------|---|---|
+| Frequency | 14.72 GHz | 10.87 GHz |
+| Average power | 182.5 µW | 180.12 µW |
+| Energy per cycle  | 12.4 fJ | 16.6 fJ |
+
 
 ---
 
