@@ -30,9 +30,7 @@ A ring oscillator is a self-starting timing source built only from inverters, wi
 
 ---
 
-## 1. Full Custom
-
-Every transistor is sized and placed by hand, rather than generated from a standard-cell library.
+## 1. Full Custom Flow
 
 - Circuit: 3-stage single-ended CMOS ring oscillator
 - Technology: GPDK 90 nm
@@ -40,7 +38,7 @@ Every transistor is sized and placed by hand, rather than generated from a stand
 
 ---
 
-## 2. CMOS Design 
+## 2. Circuit Design 
 
 Sizes and supply were chosen from parametric sweeps. For calculations and sweep plots, **refer to the report (Chapter 2)**.
 ### Schematic :
@@ -67,7 +65,7 @@ The three inverters are connected in a closed loop and packaged as a symbol with
 
 ---
 
-## 3. Simulation
+## 3. Circuit Simulation
 
 *Inputs: supply, temperature and device models.*
 
@@ -112,7 +110,7 @@ Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts 
 
 ---
 
-## 5. Post Route Simulation
+## 5. Post Layout Simulation
 
 Wire resistance and capacitance were extracted with **Quantus** into the `av_extracted` view, and the simulation was repeated on it.
 
@@ -190,7 +188,7 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 
 ---
 
-## 7. GDSII
+## 7. GDS II
 
 - The layout is DRC clean and LVS matched, so it is the design database ready for stream-out to GDSII.
 - GDSII export is not covered in the report, so it is not shown here.
