@@ -141,13 +141,6 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 > [!WARNING]
 > The 15 GHz target is **not met after layout** at the rated 1.2 V. Raising the supply to 1.8 V recovers most of the frequency but costs about 3.3 times the power and exceeds the rating, so it is not a valid fix.
 
-### Why the frequency dropped
-
-- The layout adds wiring capacitance to every node, so each stage must charge a larger load and switches more slowly.
-- The estimated wiring load is about **35%** of the original load (first-order estimate).
-- Power stays almost unchanged because the extra capacitance and lower frequency nearly cancel, so energy per cycle shows the real cost.
-- For the model and calculations, **refer to the report (Chapter 6)**.
-
 ---
 
 ## 6. PVT Analysis
@@ -201,6 +194,13 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 - GDSII export is not covered in the report, so it is not shown here.
 
 ---
+
+## Why the frequency dropped
+
+- The layout adds wiring capacitance to every node, so each stage must charge a larger load and switches more slowly.
+- The estimated wiring load is about **35%** of the original load (first-order estimate).
+- Power stays almost unchanged because the extra capacitance and lower frequency nearly cancel, so energy per cycle shows the real cost.
+- For the model and calculations, **refer to the report (Chapter 6)**.
 
 ## Suggested Improvements
 
