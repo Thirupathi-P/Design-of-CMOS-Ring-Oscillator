@@ -40,9 +40,14 @@ Every transistor is sized and placed by hand, rather than generated from a stand
 
 ---
 
-## 2. CMOS Design
+## 2. CMOS Design 
 
 Sizes and supply were chosen from parametric sweeps. For calculations and sweep plots, **refer to the report (Chapter 2)**.
+### Schematic :
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/7e4734ef-5df9-48b3-b06a-9051907dff4b" width="700" alt="Schematic of the 3-stage ring oscillator"><br>
+  <i>Fig. 1: Schematic of the 3-stage ring oscillator</i>
+</p>
 
 | Parameter | Value | Why |
 |---|---|---|
@@ -54,11 +59,7 @@ Sizes and supply were chosen from parametric sweeps. For calculations and sweep 
 
 The three inverters are connected in a closed loop and packaged as a symbol with pins **Vdd**, **Vss** and **Vout**. There is no input pin.
 
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/7e4734ef-5df9-48b3-b06a-9051907dff4b" width="700" alt="Schematic of the 3-stage ring oscillator"><br>
-  <i>Fig. 1: Schematic of the 3-stage ring oscillator</i>
-</p>
-
+### Symbol :
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b76c30b4-5508-4933-bbfe-4f66602a231e" width="700" alt="Symbol of the ring oscillator"><br>
   <i>Fig. 2: Symbol of the ring oscillator</i>
@@ -72,28 +73,33 @@ The three inverters are connected in a closed loop and packaged as a symbol with
 
 Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts the oscillation in the simulator; in a real circuit, noise does this.
 
-- Frequency: **14.72 GHz** (1.9% below target)
-- Average power: **182.5 µW**
-- Energy per cycle: **12.4 fJ**
-- Phase shift per stage: **60.2°** (ideal 60°)
-
+### Transient Response :
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a3fc69c6-a963-4f91-a061-88d405365634" width="700" alt="Output of each stage versus time"><br>
   <i>Fig. 3: Output of each stage versus time</i>
 </p>
 
-<p align="center">
+- Frequency: **14.72 GHz** (1.9% below target)
+
+### Frequency and Power of Ring Oscillator:
+
+  <p align="center">
   <img src="https://github.com/user-attachments/assets/09c0fa6c-5c49-4c73-ae79-fe1c0045a179" width="700" alt="Average power"><br>
-  <i>Fig. 4: Power consumption</i>
+  <i>Fig. 4: Frequency Measurement and Power consumption</i>
 </p>
+
+- Average power: **182.5 µW**
+- Energy per cycle: **12.4 fJ**
+
 
 ---
 
-## 4. Layout
+## 4. Layout Design
 
 - Three identical inverters are placed side by side in the same orientation.
 - The third output is routed back to the first. This feedback wire is the longest net.
 
+### Layout :
 <p align="center">
   <img src="https://github.com/user-attachments/assets/60726112-1eeb-4787-849f-6dde4f6d4511" width="700" alt="Layout of the ring oscillator"><br>
   <i>Fig. 5: Layout of the 3-stage ring oscillator</i>
@@ -109,6 +115,8 @@ Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts 
 ## 5. Post Route Simulation
 
 Wire resistance and capacitance were extracted with **Quantus** into the `av_extracted` view, and the simulation was repeated on it.
+
+### Transient Response :
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/3a3265cd-bfc2-44b5-b22c-18a978770217" width="700" alt="Post-layout transient response"><br>
@@ -154,13 +162,20 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 | SF | 10.01 | −7.9% | 163.5 | 16.3 |
 | SS | 7.75 | −28.7% | 124.1 | 16.0 |
 
-### Voltage and temperature (NN corner)
+### Voltage (NN corner)
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/f0fffa06-1a56-45b9-af44-6a6569eb6ba2" width="700" alt="Frequency versus supply voltage"><br>
   <i>Fig. 8: Frequency versus supply voltage</i>
 </p>
 
+
+| Variation | Result |
+|---|---|
+| Supply, 0.45 V to 1.8 V | Oscillates down to 0.45 V (about 1.6 GHz). Slope is about 9.3 GHz/V near the rated supply. |
+
+
+### Temperature (NN corner)
 <p align="center">
   <img src="https://github.com/user-attachments/assets/c19edf4a-c492-45af-aed6-c89dc707b563" width="700" alt="Frequency versus temperature"><br>
   <i>Fig. 9: Frequency versus temperature</i>
@@ -168,7 +183,6 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 
 | Variation | Result |
 |---|---|
-| Supply, 0.45 V to 1.8 V | Oscillates down to 0.45 V (about 1.6 GHz). Slope is about 9.3 GHz/V near the rated supply. |
 | Temperature, 0 °C to 100 °C | Frequency falls about 27%, because carrier mobility drops at high temperature. |
 
 - The oscillator starts in all corners, across the full supply and temperature ranges.
