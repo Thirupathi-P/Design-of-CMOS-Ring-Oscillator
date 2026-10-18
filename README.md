@@ -40,24 +40,30 @@ A ring oscillator is a self-starting timing source built only from inverters, wi
 
 ## 2. Circuit Design 
 
-Sizes and supply were chosen from parametric sweeps. For calculations and sweep plots, **refer to the report (Chapter 2)**.
 ### Schematic :
+
+| Parameter | Value |  
+|---|---|---|
+| Stages (N) | 3 | 
+| Channel length (L) | 100 nm | 
+| NMOS width (Wn) | 230 nm |
+| PMOS width (Wp) | 615 nm | 
+| Supply (Vdd) | 1.2 V | 
+
+Sizes and supply were chosen from parametric sweeps. For calculations and sweep plots, **refer to the report (Chapter 2)**.
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/7e4734ef-5df9-48b3-b06a-9051907dff4b" width="700" alt="Schematic of the 3-stage ring oscillator"><br>
   <i>Fig. 1: Schematic of the 3-stage ring oscillator</i>
 </p>
 
-| Parameter | Value | Why |
-|---|---|---|
-| Stages (N) | 3 | An odd number of inverters is required to oscillate. |
-| Channel length (L) | 100 nm | Fixed by the GPDK 90 nm technology. |
-| NMOS width (Wn) | 230 nm | Wn has only a small effect on frequency. |
-| PMOS width (Wp) | 615 nm | Wp/Wn is set at the peak of the frequency sweep, favouring speed over symmetry. |
-| Supply (Vdd) | 1.2 V | The rated supply is used so the design stays within its rating. |
+
+
+
+### Symbol :
 
 The three inverters are connected in a closed loop and packaged as a symbol with pins **Vdd**, **Vss** and **Vout**. There is no input pin.
 
-### Symbol :
 <p align="center">
   <img src="https://github.com/user-attachments/assets/b76c30b4-5508-4933-bbfe-4f66602a231e" width="700" alt="Symbol of the ring oscillator"><br>
   <i>Fig. 2: Symbol of the ring oscillator</i>
@@ -69,9 +75,10 @@ The three inverters are connected in a closed loop and packaged as a symbol with
 
 *Inputs: supply, temperature and device models.*
 
+### Transient Response :
 Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts the oscillation in the simulator; in a real circuit, noise does this.
 
-### Transient Response :
+
 <p align="center">
   <img src="https://github.com/user-attachments/assets/a3fc69c6-a963-4f91-a061-88d405365634" width="700" alt="Output of each stage versus time"><br>
   <i>Fig. 3: Output of each stage versus time</i>
