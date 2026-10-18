@@ -1,91 +1,78 @@
-<h1 align="center">Design of a CMOS Ring Oscillator</h1>
+<h1 align="center">Design of CMOS Ring Oscillator</h1>
 
 <p align="center">
-  A tiny on-chip "clock" circuit · 90 nm chip technology · Cadence Virtuoso
+  3-Stage Ring Oscillator · GPDK 90 nm Technology · Cadence Virtuoso · Target Frequency 15 GHz
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Target-15%20GHz-blue" alt="Target">
-  <img src="https://img.shields.io/badge/Before%20layout-14.72%20GHz-brightgreen" alt="Pre-layout">
-  <img src="https://img.shields.io/badge/After%20layout-10.87%20GHz-red" alt="Post-layout">
+  <img src="https://img.shields.io/badge/Pre--layout-14.72%20GHz-brightgreen" alt="Pre-layout">
+  <img src="https://img.shields.io/badge/Post--layout-10.87%20GHz-red" alt="Post-layout">
   <img src="https://img.shields.io/badge/DRC%20%2F%20LVS-passed-brightgreen" alt="DRC LVS">
   <img src="https://img.shields.io/badge/Technology-GPDK%2090%20nm-orange" alt="Technology">
 </p>
 
 > [!NOTE]
-> Please read the project report for detailed calculations, circuit diagrams, waveforms, layout and analysis.
+> Please read the project report for detailed calculations, circuit diagrams, simulation waveforms, layout and analysis.
 
 ---
 
-**What is this project?**
-Every digital chip needs a clock, a signal that ticks millions or billions of times per second to keep everything in step. A *ring oscillator* is one of the simplest ways to make that tick. It is just three NOT gates (called inverters) connected in a circle. The output of the last gate feeds back into the first, so the circuit keeps flipping on its own, with no input needed.
+## Abstract
 
-**How fast does it tick?**
-Each gate takes a tiny amount of time to respond. The faster the gates, the faster the ticking.
+Ring oscillators are widely used on chip as compact, self-starting sources of timing signals, since they need no input signal and are built only from inverters. This project presents the design of a 3-stage CMOS ring oscillator in the GPDK 90 nm technology using Cadence Virtuoso, with a target oscillation frequency of 15 GHz.
 
-**Frequency = 1 / (2 × number of gates × delay per gate)**
+The design follows the full-custom ASIC flow:
 
-**Why three gates?**
-A NOT gate flips a signal. An odd number of flips means the signal comes back flipped, so the circuit never settles and keeps switching. With an even number, it would get stuck.
+`System Specification → Circuit Design → Schematic Entry → Simulation → Layout → DRC / LVS → Parasitic Extraction → Post-Layout Simulation → PVT Analysis`
 
-> [!TIP]
-> **Goal:** build this circuit as a real chip design that ticks **15 billion times per second (15 GHz)**.
+> **In simple terms:** Every digital chip needs a clock, a signal that ticks billions of times per second to keep its parts in step. This project designs a simple clock circuit from three NOT gates connected in a loop, and checks how well it performs before and after it is drawn as a real chip layout.
 
-## Full Custom ASIC Flow (Schematic → Layout)
+### Key Results
 
-### 1. System Specification
-Decide what to build: a 3-gate ring oscillator on a 90 nm chip technology, ticking at 15 GHz.
+| Parameter | Target | Pre-layout | Post-layout (1.2 V) |
+|---|---|---|---|
+| Frequency | 15 GHz | 14.72 GHz | 10.87 GHz |
+| Average power | – | 182.5 µW | 180.12 µW |
+| Energy per cycle | – | 12.4 fJ | 16.6 fJ |
+| DRC / LVS | – | – | Passed, no errors |
 
-### 2. Circuit Design
-Each gate is made of two transistors (tiny electronic switches). I tested different sizes and supply voltages to see what gives the best speed:
+---
 
-| What I changed | What I found | Final choice |
-|---|---|---|
-| Size of the NMOS transistor (Wn) | 🔵 Almost no effect on speed | 230 nm |
-| Size ratio of PMOS to NMOS (R) | 🟢 Speed rises, peaks, then falls; best at R = 2.7 | PMOS = 615 nm |
-| Supply voltage (Vdd) | 🟡 Higher voltage is faster, but uses much more power | 1.2 V |
-| Gate length (L) and number of gates (N) | 🔵 Set by the technology and the design | 100 nm, 3 gates |
+## 1. Ring Oscillator
 
-I also measured how long one gate takes to switch: 8.59 ps for the falling edge and 14.15 ps for the rising edge (1 ps = one trillionth of a second). Using the formula above, the expected speed is **14.66 GHz**.
+A ring oscillator is a chain of an odd number of inverters connected in a closed loop. The output of the last inverter is fed back to the input of the first, which creates a regenerative delay loop that sustains oscillation without any input signal.
 
-### 3. Schematic Entry
-Drew the circuit diagram on the computer: one gate, then three gates connected in a circle. In the simulator, I gave the circuit a small starting push (output = 0), because a perfectly ideal circuit would just sit still. In a real chip, tiny electrical noise starts it automatically.
+> **In simple terms:** A NOT gate (inverter) flips a signal. With an odd number of gates in a circle, the signal never settles and keeps flipping, which produces a continuous tick.
 
-<p align="center"><i>📷 Add photo: schematic</i></p>
+<p align="center"><i>Add image: block diagram and transistor-level schematic</i></p>
 
-### 4. Circuit Simulation
-Ran a computer simulation of the circuit (at 27 °C, room temperature):
+### 1.1 Oscillation Frequency
 
-| What was measured | Result | What it means |
-|---|---|---|
-| Speed (frequency) | 🟢 14.72 GHz | Within about 2% of the 15 GHz goal |
-| Average power | 🟢 182.5 µW | Very small power use |
-| Energy per tick | 🔵 12.4 fJ | Energy used for one full cycle |
-| Timing delay per gate (phase) | 🟢 60.2° | Matches the expected 60°, so the circuit works as theory predicts |
+The period of the output is twice the sum of the stage delays:
 
-<p align="center"><i>📷 Add photo: output waveform</i></p>
+**f = 1 / (2 · N · tp) = 1 / (N · (tpHL + tpLH))**
 
-### 5. Layout Design
-Turned the diagram into the actual physical drawing of the chip: the shapes and wires that would be made in a factory. The three gates are identical and placed side by side, so each one behaves the same. The last gate's output is wired back to the first.
+where N is the number of stages, tp is the average propagation delay of one inverter, tpHL is the high-to-low delay and tpLH is the low-to-high delay.
 
-<p align="center"><i>📷 Add photo: layout</i></p>
+> **In simple terms:** The faster each gate responds, the faster the circuit ticks. Fewer gates also tick faster, but with less stable waveforms.
 
-### 6. DRC / LVS Verification
-Two safety checks on the drawing:
-- 🟢 **DRC** checks the factory's drawing rules (for example, minimum wire width and spacing). **No errors.**
-- 🟢 **LVS** checks that the drawing matches the original circuit diagram. **Perfect match.**
+### 1.2 Barkhausen Criterion
 
-### 7. Parasitic Extraction (PEX)
-Real wires are not perfect. Each wire adds a little extra resistance and stores a little extra electrical charge (capacitance), which slows the circuit down. This step measures those extras from the drawing, so they can be included in the next simulation.
+For sustained oscillation, two conditions must hold:
 
-### 8. Post-Layout Simulation
-Simulated again, now including the wire effects:
+1. The loop gain must be at least unity.
+2. The total phase shift around the loop must be a multiple of 360°.
 
-| What was measured (at 1.2 V) | Before layout | After layout |
-|---|---|---|
-| Speed (frequency) | 🟢 14.72 GHz | 🔴 **10.87 GHz** (about 26% slower) |
-| Average power | 🔵 182.5 µW | 🔵 180.12 µW |
-| Energy per tick | 🟢 12.4 fJ | 🟡 16.6 fJ (about 34% more) |
+Each inverter provides 180° of inversion. With N = 3, the three inverters give a net 180° inversion, and the stage delays supply the remaining 180°, which is 180° / 3 = **60° per stage**. An even number of inverters would latch instead of oscillating, which is why N must be odd.
 
-> [!WARNING]
-> The wires slowed the circuit down, so the 15 GHz goal was
+---
+
+## 2. Design of Ring Oscillator
+
+### 2.1 Design Parameters and Specification
+
+The frequency depends on f(R, Vdd, L, N), where R = Wp / Wn is the PMOS-to-NMOS width ratio. The number of stages (N = 3) and channel length (L = 100 nm) are fixed by the design choice and the technology. The NMOS width, the ratio R and the supply voltage were selected from parametric sweeps.
+
+### 2.2 Design Calculations
+
+Each parameter was varied one at a time
