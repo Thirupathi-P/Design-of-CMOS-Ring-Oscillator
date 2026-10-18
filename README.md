@@ -146,7 +146,7 @@ FF = fast, SS = slow, NN = nominal, FS and SF = one transistor type fast and the
 
 In the schematic, each inverter drives only the next inverter's transistors. In the layout, the metal wires and contacts between the stages add extra capacitance. The inverters have the same drive strength but a larger load to charge and discharge, so each stage switches more slowly. Since the ring frequency depends only on the stage delay, it falls.
 
-**f(post) / f(pre) = 1 / (1 + Cpar / C)**
+**$$f(post) / f(pre) = 1 / (1 + Cpar / C)$$**
 
 The measured ratio is 10.87 / 14.72 ≈ 0.74, so the frequency fell by about 26%. This corresponds to a wiring load of about 35% of the original load (a first-order estimate). The power stays almost the same because the lower frequency offsets the extra capacitance, so the energy per cycle rises from 12.4 fJ to 16.6 fJ.
 
