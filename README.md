@@ -54,7 +54,9 @@ Sizes and supply were chosen from parametric sweeps. For calculations and sweep 
 
 The three inverters are connected in a closed loop and packaged as a symbol with pins **Vdd**, **Vss** and **Vout**. There is no input pin.
 
-<p align="center"><i>Add image: schematic and symbol (Report Figs. 4.1, 4.2)</i></p>
+<img width="1347" height="753" alt="2025BEC0062 New Ro" src="https://github.com/user-attachments/assets/7e4734ef-5df9-48b3-b06a-9051907dff4b" />
+
+<img width="1347" height="753" alt="a new ro symbol" src="https://github.com/user-attachments/assets/b76c30b4-5508-4933-bbfe-4f66602a231e" />
 
 ---
 
@@ -62,14 +64,18 @@ The three inverters are connected in a closed loop and packaged as a symbol with
 
 *Inputs: supply, temperature and device models.*
 
+<img width="1526" height="723" alt="img stage1,2,3 vs time (1)" src="https://github.com/user-attachments/assets/a3fc69c6-a963-4f91-a061-88d405365634" />
+
+<img width="867" height="633" alt="NEW Avg Power" src="https://github.com/user-attachments/assets/09c0fa6c-5c49-4c73-ae79-fe1c0045a179" />
+
+
 Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts the oscillation in the simulator; in a real circuit, noise does this.
 
 - Frequency: **14.72 GHz** (1.9% below target)
 - Average power: **182.5 µW**
 - Energy per cycle: **12.4 fJ**
 - Phase shift per stage: **60.2°** (ideal 60°)
-
-<p align="center"><i>Add image: transient response (Report Figs. 4.3, 4.4)</i></p>
+- 
 
 ---
 
@@ -78,7 +84,8 @@ Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts 
 - Three identical inverters are placed side by side in the same orientation.
 - The third output is routed back to the first. This feedback wire is the longest net.
 
-<p align="center"><i>Add image: layout (Report Fig. 5.1)</i></p>
+<img width="1355" height="665" alt="2025bec0062 new_ro_layout" src="https://github.com/user-attachments/assets/60726112-1eeb-4787-849f-6dde4f6d4511" />
+
 
 
 - **DRC (Design Rule Check):** no errors.
@@ -89,6 +96,8 @@ Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts 
 ## 5. Post Route Simulation
 
 Wire resistance and capacitance were extracted with **Quantus** into the `av_extracted` view, and the simulation was repeated on it.
+
+<img width="1526" height="723" alt="2025bec0062 new ro postout (1)" src="https://github.com/user-attachments/assets/3a3265cd-bfc2-44b5-b22c-18a978770217" />
 
 ### Results
 
@@ -113,7 +122,7 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 ### 6. PVT analysis
 
 **Process corners (1.2 V, 27 °C)**
-
+<img width="1526" height="723" alt="1_5conner plot" src="https://github.com/user-attachments/assets/6e149695-1c8a-49ad-b713-65a646e49a50" />
 | Corner | Frequency (GHz) | vs NN | Power (µW) | Energy (fJ) |
 |---|---|---|---|---|
 | FF | 13.84 | +27.3% | 238.0 | 17.2 |
@@ -124,6 +133,10 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 
 **Voltage and temperature (NN corner)**
 
+<img width="1526" height="723" alt="1234" src="https://github.com/user-attachments/assets/f0fffa06-1a56-45b9-af44-6a6569eb6ba2" />
+
+<img width="1526" height="723" alt="1_f VS temp" src="https://github.com/user-attachments/assets/c19edf4a-c492-45af-aed6-c89dc707b563" />
+
 | Variation | Result |
 |---|---|
 | Supply, 0.45 V to 1.8 V | Oscillates down to 0.45 V (about 1.6 GHz). Slope is about 9.3 GHz/V near the rated supply. |
@@ -133,6 +146,7 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 - Even the fast corner (FF) stays about 8% below 15 GHz, so the shortfall is systematic, not a corner effect.
 
 <p align="center"><i>Add image: extracted view, post-layout waveform and PVT plots (Report Figs. 5.4 to 7.3)</i></p>
+
 
 ---
 
