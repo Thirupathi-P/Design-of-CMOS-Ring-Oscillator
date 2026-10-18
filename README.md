@@ -26,8 +26,6 @@
 
 A ring oscillator is a self-starting timing source built only from inverters, with no input signal. This project designs a **3-stage CMOS ring oscillator** in GPDK 90 nm with a **15 GHz** target.
 
-**Design flow:** Full Custom → CMOS Design → Simulation → Layout → DRC & LVS → Post Route Simulation → GDSII
-
 > **In simple terms:** Every chip needs a clock that ticks billions of times per second. This project builds one from three NOT gates in a loop, then compares its speed before and after it is drawn as a real layout, where the wires slow it down.
 
 ---
