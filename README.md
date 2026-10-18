@@ -80,20 +80,13 @@ Transient analysis in Spectre at 27 °C. An initial condition (Vout = 0) starts 
 
 <p align="center"><i>Add image: layout (Report Fig. 5.1)</i></p>
 
----
-
-## 5. DRC & LVS
-
-*Inputs: GPDK 90 nm rule files.*
 
 - **DRC (Design Rule Check):** no errors.
 - **LVS (Layout versus Schematic):** schematic and layout match.
-
-<p align="center"><i>Add image: DRC and LVS results (Report Figs. 5.2, 5.3)</i></p>
-
 ---
 
-## 6. Post Route Simulation
+
+## 5. Post Route Simulation
 
 Wire resistance and capacitance were extracted with **Quantus** into the `av_extracted` view, and the simulation was repeated on it.
 
@@ -117,7 +110,7 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 - Power stays almost unchanged because the extra capacitance and lower frequency nearly cancel, so energy per cycle shows the real cost.
 - For the model and calculations, **refer to the report (Chapter 6)**.
 
-### 7. PVT analysis
+### 6. PVT analysis
 
 **Process corners (1.2 V, 27 °C)**
 
@@ -143,7 +136,7 @@ Wire resistance and capacitance were extracted with **Quantus** into the `av_ext
 
 ---
 
-## 8. GDSII
+## 7. GDSII
 
 - The layout is DRC clean and LVS matched, so it is the design database ready for stream-out to GDSII.
 - GDSII export is not covered in the report, so it is not shown here.
