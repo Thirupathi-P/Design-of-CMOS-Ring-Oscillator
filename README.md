@@ -70,12 +70,18 @@ A ring oscillator is a self-starting timing source built only from inverters, wi
 Full custom means every transistor is sized and every wire is drawn by hand, then checked and re-simulated with the real layout parasitics. This project follows the flow below.
 
 ```mermaid
-flowchart LR
-    A[Schematic] --> B[Symbol] --> C[Testbench] --> D[Pre-layout simulation]
-    D --> E[Layout] --> F[DRC] --> G[LVS] --> H[Parasitic extraction<br/>Quantus]
-    H --> I[Post-layout simulation] --> J[PVT analysis] --> K[GDSII]
+flowchart TD
+    A[Schematic] --> B[Symbol]
+    B --> C[Testbench]
+    C --> D[Pre-layout Simulation]
+    D --> E[Layout]
+    E --> F[DRC]
+    F --> G[LVS]
+    G --> H[Extraction]
+    H --> I[Post-layout Simulation]
+    I --> J[PVT Analysis]
+    J --> K[GDSII]
 ```
----
 ### Description:
 - Circuit: 3-stage single-ended CMOS ring oscillator
 - Technology: GPDK 90 nm
