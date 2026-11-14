@@ -16,7 +16,7 @@
 </p>
 
 > [!TIP]
-> 📄 **Recommended: read the full [project report (PDF)](./Design_of_CMOS_RO.pdf) first.** It contains the theory, calculations, diagrams, waveforms and detailed analysis. This README is a short summary of it.
+> 📄 **Recommended: Read the full [project report (PDF)](./Design_of_CMOS_RO.pdf) first.** It contains the theory, calculations, diagrams, waveforms and detailed analysis. This README is a short summary of it.
 
 **Tools:** Cadence Virtuoso · Spectre · Assura / Quantus · GPDK 90 nm PDK
 
@@ -67,11 +67,19 @@ A ring oscillator is a self-starting timing source built only from inverters, wi
 
 ## 1. Full Custom Flow
 
+Full custom means every transistor is sized and every wire is drawn by hand, then checked and re-simulated with the real layout parasitics. This project follows the flow below.
+
+```mermaid
+flowchart LR
+    A[Schematic] --> B[Symbol] --> C[Testbench] --> D[Pre-layout simulation]
+    D --> E[Layout] --> F[DRC] --> G[LVS] --> H[Parasitic extraction<br/>Quantus]
+    H --> I[Post-layout simulation] --> J[PVT analysis] --> K[GDSII]
+```
+---
+### Description:
 - Circuit: 3-stage single-ended CMOS ring oscillator
 - Technology: GPDK 90 nm
 - Target frequency: 15 GHz at 27 °C
-
----
 
 ## 2. Circuit Design
 
