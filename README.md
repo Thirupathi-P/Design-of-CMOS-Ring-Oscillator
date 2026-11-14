@@ -25,17 +25,16 @@
 ## Contents
 
 1. [Ring Oscillator](#ring-oscillator)
-2. [Repository Structure](#repository-structure)
-3. [Full Custom Flow](#1-full-custom-flow)
-4. [Circuit Design](#2-circuit-design) – [Schematic](./Schematic/) · [Symbol](./Symbol/)
-5. [Circuit Simulation](#3-circuit-simulation) – [Testbench](./Testbench/) · [Pre-layout results](./Prelayout_Simulation/)
-6. [Layout Design](#4-layout-design) – [Layout](./Layout/) · [DRC](./DRC/) · [LVS](./LVS/)
-7. [Post Layout Simulation](#5-post-layout-simulation) – [Extracted view](./Extracted_View/) · [Post-layout results](./Postlayout_Simulation/)
-8. [PVT Analysis](#6-pvt-analysis) – [PVT plots](./PVT_Analysis/)
-9. [GDS II](#7-gds-ii)
-10. [Why the frequency dropped](#why-the-frequency-dropped)
-11. [Suggested Improvements](#suggested-improvements)
-
+2. [Full Custom Flow](#1-full-custom-flow)
+3. [Circuit Design](#2-circuit-design) – [Schematic](./Schematic/) · [Symbol](./Symbol/)
+4. [Circuit Simulation](#3-circuit-simulation) – [Testbench](./Testbench/) · [Pre-layout results](./Prelayout_Simulation/)
+5. [Layout Design](#4-layout-design) – [Layout](./Layout/) · [DRC](./DRC/) · [LVS](./LVS/)
+6. [Post Layout Simulation](#5-post-layout-simulation) – [Extracted view](./Extracted_View/) · [Post-layout results](./Postlayout_Simulation/)
+7. [PVT Analysis](#6-pvt-analysis) – [PVT plots](./PVT_Analysis/)
+8. [GDS II](#7-gds-ii)
+9. [Why the frequency dropped](#why-the-frequency-dropped)
+10. [Suggested Improvements](#suggested-improvements)
+11. [Repository Structure](#repository-structure)
 ---
 
 ## Ring Oscillator
@@ -43,49 +42,28 @@
 A ring oscillator is a self-starting timing source built only from inverters, with no input signal. This project designs a **3-stage CMOS ring oscillator** in GPDK 90 nm with a **15 GHz** target.
 
 > **In simple terms:** Every chip needs a clock that ticks billions of times per second. This project builds one from three NOT gates in a loop, then compares its speed before and after it is drawn as a real layout, where the wires slow it down.
+>
+
+
+#### Description:
+- Circuit: 3-stage single-ended CMOS ring oscillator
+- Technology: GPDK 90 nm
+- Target frequency: 15 GHz at 27 °C
 
 ---
 
-### Repository Structure
-
-| Folder / File | Contents |
-|---|---|
-| [Design_of_CMOS_RO.pdf](./Design_of_CMOS_RO.pdf) | 📄 Full project report (**start here**) |
-| [Schematic/](./Schematic/) | Schematic of the 3-stage ring oscillator |
-| [Symbol/](./Symbol/) | Symbol (pins Vdd, Vss, Vout) |
-| [Testbench/](./Testbench/) | Testbench used for simulation |
-| [Prelayout_Simulation/](./Prelayout_Simulation/) | Pre-layout (schematic) simulation setup and results |
-| [Layout/](./Layout/) | Full-custom layout |
-| [DRC/](./DRC/) | Design rule check result |
-| [LVS/](./LVS/) | Layout versus schematic result |
-| [Extracted_View/](./Extracted_View/) | Quantus extraction (`av_extracted` view) |
-| [Postlayout_Simulation/](./Postlayout_Simulation/) | Post-layout simulation setup and results |
-| [PVT_Analysis/](./PVT_Analysis/) | Process, voltage and temperature analysis |
-| [Waveforms/](./Waveforms/) | Output waveforms |
-
----
 
 ## 1. Full Custom Flow
 
 Full custom means every transistor is sized and every wire is drawn by hand, then checked and re-simulated with the real layout parasitics. This project follows the flow below.
 
-```mermaid
-flowchart TD
-    A[Schematic] --> B[Symbol]
-    B --> C[Testbench]
-    C --> D[Pre-layout Simulation]
-    D --> E[Layout]
-    E --> F[DRC]
-    F --> G[LVS]
-    G --> H[Extraction]
-    H --> I[Post-layout Simulation]
-    I --> J[PVT Analysis]
-    J --> K[GDSII]
-```
-### Description:
-- Circuit: 3-stage single-ended CMOS ring oscillator
-- Technology: GPDK 90 nm
-- Target frequency: 15 GHz at 27 °C
+> [!IMPORTANT]
+> ## Design Flow
+> 
+> ```text
+> Schematic ➔ Symbol ➔ Testbench ➔ Pre-layout Simulation ➔ Layout ➔ DRC ➔ LVS ➔ Extraction ➔ Post-layout Simulation ➔ PVT Analysis ➔ GDSII
+> ```
+> 
 
 ## 2. Circuit Design
 
@@ -275,7 +253,21 @@ Layout fixes alone cannot reach 15 GHz, since the schematic is already slightly 
 
 ---
 
-<p align="center">
-  📄 For full theory, calculations and analysis, read the <a href="./Design_of_CMOS_RO.pdf"><b>project report</b></a>.
-</p>
+### Repository Structure
 
+| Folder / File | Contents |
+|---|---|
+| [Design_of_CMOS_RO.pdf](./Design_of_CMOS_RO.pdf) | 📄Full project report  (**start here** ). <br>It contains the theory, calculations, diagrams, waveforms and detailed analysis|
+| [Schematic/](./Schematic/) | Schematic of the 3-stage ring oscillator |
+| [Symbol/](./Symbol/) | Symbol (pins Vdd, Vss, Vout) |
+| [Testbench/](./Testbench/) | Testbench used for simulation |
+| [Prelayout_Simulation/](./Prelayout_Simulation/) | Pre-layout (schematic) simulation setup and results |
+| [Layout/](./Layout/) | Full-custom layout |
+| [DRC/](./DRC/) | Design rule check result |
+| [LVS/](./LVS/) | Layout versus schematic result |
+| [Extracted_View/](./Extracted_View/) | Quantus extraction (`av_extracted` view) |
+| [Postlayout_Simulation/](./Postlayout_Simulation/) | Post-layout simulation setup and results |
+| [PVT_Analysis/](./PVT_Analysis/) | Process, voltage and temperature analysis |
+| [Waveforms/](./Waveforms/) | Output waveforms |
+
+---
