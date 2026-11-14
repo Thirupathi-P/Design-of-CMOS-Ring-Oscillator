@@ -16,9 +16,11 @@
 </p>
 
 > [!TIP]
-> 📄 **Recommended: Read the full [project report (PDF)](./Design_of_CMOS_RO.pdf) first.** It contains the theory, calculations, diagrams, waveforms and detailed analysis. This README is a short summary of it.
+> 📄 **Recommended: Read the full [project report (PDF)](./Design_of_CMOS_RO.pdf) first.** <br>
+This README contains the key results. For the complete theory, calculations, diagrams, waveforms, and detailed analysis.<br>
+Please refer to the project report
 
-**Tools:** Cadence Virtuoso · Spectre · Assura / Quantus · GPDK 90 nm PDK
+**Tools:** Cadence Virtuoso · Spectre · Assura / Quantus · GPDK 90 nm 
 
 ---
 
@@ -63,7 +65,7 @@ Full custom means every transistor is sized and every wire is drawn by hand, the
 > ```text
 > Schematic ➔ Symbol ➔ Testbench ➔ Pre-layout Simulation ➔ Layout ➔ DRC ➔ LVS ➔ Extraction ➔ Post-layout Simulation ➔ PVT Analysis ➔ GDSII
 > ```
-> 
+>
 
 ## 2. Circuit Design
 
