@@ -24,7 +24,7 @@
 
 ## Contents
 
-1. [Overview](#overview)
+1. [Ring Oscillator](#ring-oscillator)
 2. [Repository Structure](#repository-structure)
 3. [Full Custom Flow](#1-full-custom-flow)
 4. [Circuit Design](#2-circuit-design) – [Schematic](./Schematic/) · [Symbol](./Symbol/)
@@ -38,7 +38,7 @@
 
 ---
 
-## Overview
+## Ring Oscillator
 
 A ring oscillator is a self-starting timing source built only from inverters, with no input signal. This project designs a **3-stage CMOS ring oscillator** in GPDK 90 nm with a **15 GHz** target.
 
@@ -46,7 +46,7 @@ A ring oscillator is a self-starting timing source built only from inverters, wi
 
 ---
 
-## Repository Structure
+### Repository Structure
 
 | Folder / File | Contents |
 |---|---|
